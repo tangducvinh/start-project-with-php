@@ -16,4 +16,12 @@
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
+
+    @if ($errors->any())
+    <div>
+      @foreach($errors->all() as $error)
+        <p class='text-danger'>{{$error}}</p>
+      @endforeach
+    </div>
+  @endif
 @endsection

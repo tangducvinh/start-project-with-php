@@ -44,13 +44,15 @@ Route::get('/blog', [PagesController::class, 'blog']);
 
 Route::get("/posts", [PostsController::class, 'index']);
 
+Route::get('/foods/create', [FoodsController::class, 'create']);
+
+Route::get('foods/{id}', [FoodsController::class, 'show']);
+
 Route::get("/foods", [FoodsController::class, 'index']);
 
 Route::put('/foods/{id}', [FoodsController::class, 'update']);
 
-Route::get('foods/{id}', [FoodsController::class, 'show']);
 
-Route::get('/foods/create', [FoodsController::class, 'create']);
 
 Route::post('/foods', [FoodsController::class, 'store']);
 
