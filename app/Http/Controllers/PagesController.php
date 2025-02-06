@@ -18,4 +18,8 @@ class PagesController extends Controller
     public function blog() {
         return view('blog');
     }
+
+    public function welcome() {
+        return view('welcome');
+    }
 }

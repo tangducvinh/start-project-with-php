@@ -1,10 +1,7 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\PagesController;
-use App\Http\Controllers\PostsController;
-use App\Http\Controllers\FoodsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,45 +14,24 @@ use App\Http\Controllers\FoodsController;
 |
 */
 
-Route::get('/product',  [
-    ProductController::class,
-    'index',
-]);
+Route::get('/', function () {
+    return view('welcome');
+});
 
-Route::get('/products/{id}/{productName}', [
-    ProductController::class,
-    'detail'
-])->where([
-    "id" => '[0-9]+',
-    'productName' => '[a-z]+'
-]);
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified', 'admin'])->name('dashboard');
 
-Route::get('/', [
-    PagesController::class,
-    'index'
-]);
+// Route::middleware(['auth'])->group(function () {
+//     Route::get('/dashboard', function () {
+//         return view('dashboard');
+//     });
+// });
 
-Route::get('/about', [
-    PagesController::class,
-    'about'
-]);
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 
-Route::get('/blog', [PagesController::class, 'blog']);
-
-Route::get("/posts", [PostsController::class, 'index']);
-
-Route::get('/foods/create', [FoodsController::class, 'create']);
-
-Route::get('foods/{id}', [FoodsController::class, 'show']);
-
-Route::get("/foods", [FoodsController::class, 'index']);
-
-Route::put('/foods/{id}', [FoodsController::class, 'update']);
-
-
-
-Route::post('/foods', [FoodsController::class, 'store']);
-
-Route::get('/foods/{id}/edit', [FoodsController::class, 'edit']);
-
-Route::delete('/foods/{id}', [FoodsController::class, 'delete']);
+require __DIR__.'/auth.php';
